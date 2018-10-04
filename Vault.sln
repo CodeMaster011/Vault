@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vault.UX.Console", "Vault.UX.Console\Vault.UX.Console.csproj", "{AE019FE6-F386-4E06-B81C-F3CAD6038DC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vault.UX.Console", "Vault.UX.Console\Vault.UX.Console.csproj", "{AE019FE6-F386-4E06-B81C-F3CAD6038DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vault.Core", "Vault.Core\Vault.Core.csproj", "{A4D1F2E2-369D-4F6E-8C10-F6CDBA8CE0A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vault.Core", "Vault.Core\Vault.Core.csproj", "{A4D1F2E2-369D-4F6E-8C10-F6CDBA8CE0A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoles.Infrastructure", "Consoles.Infrastructure\Consoles.Infrastructure.csproj", "{C5A110F5-A204-4158-89D0-C6791E5AB57B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A4D1F2E2-369D-4F6E-8C10-F6CDBA8CE0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D1F2E2-369D-4F6E-8C10-F6CDBA8CE0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D1F2E2-369D-4F6E-8C10-F6CDBA8CE0A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A110F5-A204-4158-89D0-C6791E5AB57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A110F5-A204-4158-89D0-C6791E5AB57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A110F5-A204-4158-89D0-C6791E5AB57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A110F5-A204-4158-89D0-C6791E5AB57B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

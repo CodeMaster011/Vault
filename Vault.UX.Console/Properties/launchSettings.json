@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Vault.UX.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "--it"
+    }
+  }
+}

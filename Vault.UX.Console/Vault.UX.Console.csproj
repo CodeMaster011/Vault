@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Consoles.Infrastructure\Consoles.Infrastructure.csproj" />
     <ProjectReference Include="..\Vault.Core\Vault.Core.csproj" />
   </ItemGroup>
 
