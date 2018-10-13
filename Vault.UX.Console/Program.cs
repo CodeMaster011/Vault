@@ -25,6 +25,11 @@ namespace Vault.UX.ConsoleUx
                     Console.WriteLine($"[{s}]");
                     return next();
                 })
+                .Add("--sDelete", "-sdel", (filePath, next) =>
+                {
+                    SecureDelete.Delete(filePath, 2).GetAwaiter().GetResult();
+                    return next();
+                })
                 .Add(new AddFileCommand())
                 .Add(new ExecuteBatchCommand())
                 .Add("--help", "-h", (_, next) => {
