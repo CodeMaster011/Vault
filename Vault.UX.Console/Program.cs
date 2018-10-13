@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Vault.Core;
+using Vault.UX.ConsoleUx.Commands;
 
 namespace Vault.UX.ConsoleUx
 {
@@ -18,33 +19,57 @@ namespace Vault.UX.ConsoleUx
             var isInInteractiveMode = false;
 
             pipeline
+                .Add("--T", "-v", (_, next) =>
+                {
+                    var s = Input.GetPassword("Type Password: ", '#', 5);
+                    Console.WriteLine($"[{s}]");
+                    return next();
+                })
+                .Add(new AddFileCommand())
+                .Add(new ExecuteBatchCommand())
                 .Add("--help", "-h", (_, next) => {
                     Console.WriteLine("You are in help. We will not run anything else in the pipeline.");
                     return Task.CompletedTask;
                 })
-                .Add(new DelegateCommand("--read", (file, next) => {
-                    if (File.Exists(file))
-                        Console.WriteLine(File.ReadAllText(file));
-                    else
-                        Console.WriteLine($"\"{file}\" is not found");
-                    return next();
-                }))
-                .Add(new DelegateCommand("--read-delay", (file, next) => {
-                    if (File.Exists(file))
+                .Add("--ViewFile", "-v", (_, next) =>
+                {
+                    foreach (var item in Global.InputFiles)
                     {
-                        Console.WriteLine($"Reading file at \"{file}\"...");
-                        var lines = File.ReadLines(file);
-                        foreach (var item in lines)
-                        {
-                            Console.WriteLine(item);
-                            Task.Delay(100).Wait();
-                        }
-                        Console.WriteLine("EOF reached");
+                        Console.WriteLine(item);
                     }
-                    else
-                        Console.WriteLine($"\"{file}\" is not found");
                     return next();
-                }))
+                })
+                .Add("--ClearFile", "-cf", (_, next) =>
+                {
+                    Global.InputFiles.Clear();
+                    Console.WriteLine("All files cleared");
+                    return next();
+                })
+                .Add("--encrypt", "-e", (_, next) =>
+                {
+                    Global.WorkType = WorkType.Encrypt;
+                    Console.WriteLine("Execution is not set for encryption.");
+                    return next();
+                })
+                .Add("--decrypt", "-d", (_, next) =>
+                {
+                    Global.WorkType = WorkType.Decrypt;
+                    Console.WriteLine("Execution is not set for decryption.");
+                    return next();
+                })
+                .Add("--UserId", "-u", (userId, next) =>
+                {
+                    Global.UserId = userId;
+                    return next();
+                })
+                .Add("--SetWorkLoad", "-w", (workLoadType, next) =>
+                {
+                    if(int.TryParse(workLoadType, out var workLoadInt))
+                    {
+                        Global.WorkLoad = (WorkLoad)workLoadInt;
+                    }
+                    return next();
+                })
                 .Add(new DelegateCommand("--print", "-p", (message, next) => {
                     Console.WriteLine(message);
                     return next();
@@ -53,7 +78,7 @@ namespace Vault.UX.ConsoleUx
                     isInInteractiveMode = true;
                     return next();
                 });
-            pipeline.Execute(commandData);
+            pipeline.Execute(commandData).GetAwaiter().GetResult();
 
             string input = null;
             while (isInInteractiveMode && input != "q")
@@ -62,9 +87,10 @@ namespace Vault.UX.ConsoleUx
                 input = Console.ReadLine();
                 if (!string.IsNullOrEmpty(input))
                 {
-                    args = $"--{input}".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    // args = $"--{input}".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    args = CommandInterpreter.GetArgsFromString($"--{input}");
                     commandData = interpreter.InterpretTokenBase(args);
-                    pipeline.Execute(commandData);
+                    pipeline.Execute(commandData).GetAwaiter().GetResult();
                 }
             }
         }

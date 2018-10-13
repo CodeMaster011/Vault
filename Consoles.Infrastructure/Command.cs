@@ -20,7 +20,9 @@ namespace Consoles.Infrastructure
             CommandNamespace = commandNamespace;
         }
 
-        public abstract Task Execute(string parameters, Func<Task> next);
+        public virtual Task Execute(string parameters, Func<Task> next) => Task.CompletedTask;
+
+        public virtual Task Execute(InterpreterReadToken token, Func<Task> next) => Execute(token.Value, next);
 
         public virtual bool CanExecute(InterpreterReadToken token) {
             if((!string.IsNullOrEmpty(CommandNamespace) || !string.IsNullOrEmpty(token.Namespace)) 

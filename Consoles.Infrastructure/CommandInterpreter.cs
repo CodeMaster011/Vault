@@ -103,6 +103,27 @@ namespace Consoles.Infrastructure {
             remaining = value;
             return false;
         }
+
+        public static string[] GetArgsFromString(string s)
+        {
+            // AAA"BBBB CCCCC"DDDD EEEEE"FFF"GGG
+            //  1      2          3       4   5
+            var finalResult = new List<string>();
+            var splitByCotation = s.Split(new[] { '"' });
+            for (int i = 0; i < splitByCotation.Length; i++)
+            {
+                if((i + 1) % 2 == 0)
+                {
+                    finalResult.Add(splitByCotation[i]);
+                }
+                else
+                {
+                    var sp = splitByCotation[i].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    finalResult.AddRange(sp);
+                }
+            }
+            return finalResult.ToArray();
+        }
     }
 
     public class CommandInterpreterOptions {

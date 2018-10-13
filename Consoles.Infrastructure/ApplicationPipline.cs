@@ -29,6 +29,10 @@ namespace Consoles.Infrastructure
             if (currentIndex >= executionPipline.Count)
                 return Task.CompletedTask; // break on last index automatically
             var executionData = executionPipline[currentIndex];
+            if(executionData.ReaderToken != null)
+                return executionData.Command.Execute(executionData.ReaderToken,
+                () => Execute(executionPipline, ++currentIndex));
+
             return executionData.Command.Execute(executionData.Parameter, 
                 () => Execute(executionPipline, ++currentIndex));
         }
