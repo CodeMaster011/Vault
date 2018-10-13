@@ -71,7 +71,14 @@ namespace Vault.UX.ConsoleUx.Commands
 
         protected virtual async Task DecryptSingleFile()
         {
-            var output = string.IsNullOrEmpty(Global.OutputFile) ? Global.InputFiles[0] + ".out.decrypt" : Global.OutputFile;
+            var output = Global.OutputFile;
+            if (string.IsNullOrEmpty(output))
+            {
+                if (Global.InputFiles[0].EndsWith(".out.encrypt"))
+                    output = Global.InputFiles[0].Replace(".out.encrypt", string.Empty);
+                else
+                    output = Global.InputFiles[0];
+            }
             var password = Input.GetPassword("Password: ", '*', 32);
 
 
